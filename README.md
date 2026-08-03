@@ -4,6 +4,8 @@ Backend developer. Moscow.
 
 Four years on production systems: document pipelines, integrations with external registries and messengers, message queues, highload Telegram bots/apps. Two tracks — Python services and 1C-Bitrix / PHP portals with CRM integrations. Most of that work is closed source, so the repositories below are side projects: they show how I structure code, not what I shipped at work.
 
+The exception is the first one — a tool I built because I needed it at work and nothing like it existed.
+
 Currently open to backend roles.
 
 ## Main stack
@@ -33,7 +35,17 @@ Currently open to backend roles.
 
 ![Go](https://img.shields.io/badge/Go-00ADD8?style=flat-square&logo=go&logoColor=white)
 
-## Repositories
+## phpstan-bitrix
+
+[**phpstan-bitrix**](https://github.com/zavet-g/phpstan-bitrix) — a PHPStan extension for 1C-Bitrix projects. Sixteen rules that find legacy kernel API, uncached queries, N+1 over infoblock properties, SQL built by concatenation and blocking calls inside event handlers.
+
+Generic PHPStan knows nothing about the platform: to it, `CIBlockElement::GetList()` inside a `foreach` is just a static call, not the thing that takes down the database on a list of a thousand elements. No such extension exists on packagist, and Bitrix's own quality monitor solves a different problem — taint analysis for XSS and injections.
+
+Written against a real project: 1072 files, 201 legacy API findings. That run is also why the legacy rules are split into five identifiers instead of one — 95 of those findings were mechanical `CModule::IncludeModule()` replacements, and without the split you would have to choose between that noise and the rule itself.
+
+PHP 8.2+, tested on 8.2 through 8.5.
+
+## Other repositories
 
 | project | what it is | worth a look for |
 |---|---|---|
